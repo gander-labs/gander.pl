@@ -59,6 +59,7 @@ This project uses [VitePress](https://vitepress.dev/):
 - **wrangler.jsonc**: Worker config (`gander-pl`, static assets from `.vitepress/dist`, Worker runs first). Deploys are triggered by pushes to the Cloudflare-connected repo (Workers Builds, deploy command `npx wrangler deploy`), not manually.
 - **CSP reports**: the CSP is `Report-Only`; violations are sent to the collector at `https://csp.gander.tools/` (a separate Worker that stores them in D1). This site only sets `Reporting-Endpoints` and `report-uri` in `worker/index.js`.
 - **Worker routing**: `run_worker_first` limits the Worker to pages (CSP nonce); `/assets/*` and files with an extension are free static requests.
+- **Observability**: `wrangler.jsonc` enables Workers Observability (persisted logs and traces at 100% sampling, invocation logs, Issues; query strings are not redacted). Data shows up in the Cloudflare dashboard after the next deploy.
 - **Build command**: `npm ci && npm run build`; Node version comes from `.nvmrc` / `NODE_VERSION`.
 - **renovate.json**: majors are separate PRs without automerge; Node, `@types/node` and npm majors are normal major PRs (no cap). Bump `.nvmrc` and `NODE_VERSION` in Cloudflare together by hand when merging a Node major. `vitepress` has no version cap and may update to pre-releases (2.x is alpha).
 
