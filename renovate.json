@@ -24,9 +24,10 @@
             "allowedVersions": "<23"
         },
         {
-            "description": "VitePress: stay on 1.x (2.x is a separate theme/config migration). Remove after migrating.",
+            "description": "VitePress 2.x is published as alpha: allow pre-releases (and versions ahead of the latest tag) so Renovate proposes the move. Majors still follow the rule above.",
             "matchPackageNames": ["vitepress"],
-            "allowedVersions": "<2"
+            "ignoreUnstable": false,
+            "respectLatest": false
         }
     ]
 }
