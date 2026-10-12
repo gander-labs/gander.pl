@@ -13,12 +13,6 @@ export default defineConfig({
         hostname: 'https://gander.pl',
     },
 
-    vite: {
-        html: {
-            cspNonce: '{{CSP-NONCE}}',
-        },
-    },
-
     async transformHead() {
         const scripts: HeadConfig[] = [];
 
@@ -52,14 +46,6 @@ export default defineConfig({
         ['link', {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}],
         ['link', {rel: 'manifest', href: '/site.webmanifest'}],
     ],
-
-    async transformHtml(code, id, context) {
-        return code
-            .replace(/<script/g, `<script nonce="${context.siteConfig.vite.html.cspNonce}"`)
-            .replace(/<link rel="stylesheet"/g, `<link rel="stylesheet" nonce="${context.siteConfig.vite.html.cspNonce}"`)
-            .replace(/<link rel="manifest"/g, `<link rel="manifest" nonce="${context.siteConfig.vite.html.cspNonce}"`)
-            .replace('<head>', `<head>\n<meta property="csp-nonce" nonce="${context.siteConfig.vite.html.cspNonce}">\n`);
-    },
 
     themeConfig: {
         // https://vitepress.dev/reference/default-theme-config

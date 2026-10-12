@@ -19,7 +19,7 @@ The site is built with modern web technologies, deployed as static assets on a C
 - **Static Site Generator**: VitePress for fast, modern documentation sites
 - **Deployment Platform**: Cloudflare Workers (static assets) for global CDN and edge processing
 - **Analytics**: Dual integration with Umami and Medama analytics platforms
-- **Security**: Content Security Policy with nonce-based loading
+- **Security**: Content Security Policy (Report-Only)
 - **Configuration Language**: TypeScript for type-safe configuration
 - **Middleware**: Cloudflare Worker for server-side processing
 
@@ -53,21 +53,18 @@ This project uses [VitePress](https://vitepress.dev/):
   - Complex sidebar navigation structure
   - Analytics integration (Umami, Medama)
   - CSP (Content Security Policy) implementation
-  - Custom head transformations for nonce injection
 
 ### Cloudflare Workers
 - **wrangler.jsonc**: Worker config (`gander-pl`, static assets from `.vitepress/dist`, Worker runs first). Deploys are triggered by pushes to the Cloudflare-connected repo (Workers Builds, deploy command `npx wrangler deploy`), not manually.
 - **CSP reports**: the CSP is `Report-Only`; violations are sent to the collector at `https://csp.gander.tools/` (a separate Worker that stores them in D1). This site only sets `Reporting-Endpoints` and `report-uri` in `worker/index.js`.
-- **Worker routing**: `run_worker_first` limits the Worker to pages (CSP nonce); `/assets/*` and files with an extension are free static requests.
+- **Worker routing**: `run_worker_first` limits the Worker to pages (CSP headers); `/assets/*` and files with an extension are free static requests.
 - **Observability**: `wrangler.jsonc` enables Workers Observability (persisted logs and traces at 100% sampling, invocation logs, Issues; query strings are not redacted). Data shows up in the Cloudflare dashboard after the next deploy.
 - **Build command**: `npm ci && npm run build`; Node version comes from `.nvmrc` / `NODE_VERSION`.
 - **renovate.json**: majors are separate PRs without automerge; Node, `@types/node` and npm majors are normal major PRs (no cap). Bump `.nvmrc` and `NODE_VERSION` in Cloudflare together by hand when merging a Node major. `vitepress` has no version cap and may update to pre-releases (2.x is alpha).
 
 ### Middleware
 - **worker/index.js**: Cloudflare Worker that wraps the static assets and:
-  - Generates CSP nonces for security
   - Sets security headers including CSP reporting
-  - Replaces nonce placeholders in HTML output
 
 ## Content Organization
 
@@ -93,7 +90,6 @@ The site includes several important features:
 ## Environment and Security
 
 The project implements strict Content Security Policy with:
-- Nonce-based script and style loading for enhanced security
 - CSP reporting to external endpoint for violation monitoring
 - Environment-based analytics integration preventing hardcoded secrets
 - Support for both Umami and Medama analytics platforms
