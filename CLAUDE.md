@@ -60,7 +60,7 @@ This project uses [VitePress](https://vitepress.dev/):
 - **CSP reports**: the CSP is `Report-Only`; violations are sent to the collector at `https://csp.gander.tools/` (a separate Worker that stores them in D1). This site only sets `Reporting-Endpoints` and `report-uri` in `worker/index.js`.
 - **Worker routing**: `run_worker_first` limits the Worker to pages (CSP nonce); `/assets/*` and files with an extension are free static requests.
 - **Build command**: `npm ci && npm run build`; Node version comes from `.nvmrc` / `NODE_VERSION`.
-- **renovate.json**: majors are separate PRs without automerge; Node, `@types/node` and `vitepress` are pinned to their current major.
+- **renovate.json**: majors are separate PRs without automerge; Node and `@types/node` are pinned to their current major. `vitepress` has no version cap and may update to pre-releases (2.x is alpha).
 
 ### Middleware
 - **worker/index.js**: Cloudflare Worker that wraps the static assets and:
