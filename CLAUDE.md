@@ -25,7 +25,7 @@ The site is built with modern web technologies, deployed as static assets on a C
 
 ## Prerequisites and Setup
 
-- **Runtime**: [Node.js](https://nodejs.org/) v22 (see `.nvmrc`)
+- **Runtime**: [Node.js](https://nodejs.org/) (see `.nvmrc`; `engines.node` is `>=22`)
 - **Installation**: Run `npm ci` to install dependencies
 
 ## Build System and Commands
@@ -60,7 +60,7 @@ This project uses [VitePress](https://vitepress.dev/):
 - **CSP reports**: the CSP is `Report-Only`; violations are sent to the collector at `https://csp.gander.tools/` (a separate Worker that stores them in D1). This site only sets `Reporting-Endpoints` and `report-uri` in `worker/index.js`.
 - **Worker routing**: `run_worker_first` limits the Worker to pages (CSP nonce); `/assets/*` and files with an extension are free static requests.
 - **Build command**: `npm ci && npm run build`; Node version comes from `.nvmrc` / `NODE_VERSION`.
-- **renovate.json**: majors are separate PRs without automerge; Node and `@types/node` are pinned to their current major. `vitepress` has no version cap and may update to pre-releases (2.x is alpha).
+- **renovate.json**: majors are separate PRs without automerge; Node, `@types/node` and npm majors are normal major PRs (no cap). Bump `.nvmrc` and `NODE_VERSION` in Cloudflare together by hand when merging a Node major. `vitepress` has no version cap and may update to pre-releases (2.x is alpha).
 
 ### Middleware
 - **worker/index.js**: Cloudflare Worker that wraps the static assets and:

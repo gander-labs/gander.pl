@@ -14,17 +14,6 @@
             "prBodyNotes": ["Major bump: read the changelog, check the Cloudflare build and the versions in .nvmrc."]
         },
         {
-            "description": "Node (.nvmrc): major bumps are manual only, together with NODE_VERSION in Cloudflare.",
-            "matchDepNames": ["node"],
-            "matchUpdateTypes": ["major"],
-            "enabled": false
-        },
-        {
-            "description": "@types/node: keep in line with the runtime from .nvmrc (22). Bump together with .nvmrc and NODE_VERSION in Cloudflare.",
-            "matchPackageNames": ["@types/node"],
-            "allowedVersions": "<23"
-        },
-        {
             "description": "VitePress 2.x is published as alpha: allow pre-releases (and versions ahead of the latest tag) so Renovate proposes the move. Majors still follow the rule above.",
             "matchPackageNames": ["vitepress"],
             "ignoreUnstable": false,
